@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: slow
+provisioner: kubernetes.io/gce-pd #provision especifico do GCP
+parameters:
+  type: pd-standard
+  fstype: ext4 #filesistem que queremos utilizar
+  replication-type: none

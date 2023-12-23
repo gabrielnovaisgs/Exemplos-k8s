@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources: #os recursos
+    requests: #pedem
+      storage: 10Gi #por um storage de 10 gigabytes
+  storageClassName: slow

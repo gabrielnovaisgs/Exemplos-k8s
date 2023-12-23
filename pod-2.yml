@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-2
+  labels: #cria as labels que o serviço vai procurar
+    app: segundo-pod
+spec:
+  containers:
+    - name: container-pod-2
+      image: nginx:latest
+      ports: #porta sendo exposta para dentro do pod
+        - containerPort: 80

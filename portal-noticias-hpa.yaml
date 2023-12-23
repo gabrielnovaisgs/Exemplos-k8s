@@ -1,0 +1,21 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: portal-noticias-hpa
+spec:
+  scaleTargetRef: #referencia para o recurso que será escalado
+    apiVersion: apps/v1 #versão da API do alvo
+    kind: Deployment #tipo do alvo
+    name: portal-noticias-deployment
+  minReplicas: 1 #numero minimo de replicas
+  maxReplicas: 10 #numero maximo de replicas
+  metrics:
+    - type: Resource #recursos que serão monitorados
+      resource:
+        name: cpu #nome do recurso
+        target:
+          type: Utilization #tipo de monitoramento
+          #porcentagem de utilização do recurso
+          #nesse caso, se o consumo médio da aplicação chegar a mais de 5 milicores o hpa vai criar mais pods
+          #para que o consumo médio não passe de 50%
+          averageUtilization: 50

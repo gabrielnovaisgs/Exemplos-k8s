@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-sc
+  labels:
+    app: nginx
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      volumeMounts:
+        - name: volume-sc
+          mountPath: pvc-2
+      ports:
+        - containerPort: 80
+  volumes:
+    - name: volume-sc
+      persistentVolumeClaim:
+        claimName: pvc-2

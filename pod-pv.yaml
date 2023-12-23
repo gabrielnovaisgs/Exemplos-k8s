@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-pv
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      volumeMounts: #montagem do volume dentro do container
+        - mountPath: /volume-dentro-do-container
+          name: primeiro-pv
+
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+
+  volumes: #criando o volume
+    - name: primeiro-pv
+      persitentVolumeClaim: #do tipo pvc
+        claimName: pvc-1

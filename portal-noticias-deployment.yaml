@@ -1,0 +1,48 @@
+apiVersion: apps/v1 #Grupo da api
+kind: Deployment
+metadata: #metadata do replicaset
+  name: portal-noticias-deployment
+spec:
+  replicas: 3 #numero de replicas do replicaset
+  selector: #quais recursos ele deve gerir
+    matchLabels:
+      app: portal-noticias
+
+  template: #qual o modelo/padrão do replica set
+    metadata: #dados do pod
+      name: portal-noticias
+      labels:
+        app: portal-noticias
+    spec:
+      containers:
+        - name: portal-noticias-container
+          image: aluracursos/portal-noticias:1
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: portal-configmap
+          resources: #recursos que o container precisa
+            limits:
+              cpu: "10m" #10 milicores de cpu para funcionar
+              memory: "512Mi"
+            requests: #recursos que o container precisa para funcionar
+              cpu: "10m" #10 milicores de cpu para funcionar"
+              memory: "256Mi"
+
+          livesnessProbe: #Prova de vida
+            httpGet:
+              path: / #caminho para acessar o pod
+              port: 80 #porta do pod
+            failureThreshold: 3 #numero de falhas antes de reiniciar o pod
+            initialDelaySeconds: 20 #tempo de espera antes da primeira requisição
+            periodSeconds: 10 #de quanto em quanto tempo realizar a requisição
+
+          #A aplicação estará pronta para executar os testes de vida quando passar no readinessProbe
+          readinessPorbe: #Validar se o container esta de pé
+            httpGet:
+              path: / #caminho para acessar o pod
+              port: 80 #porta do pod
+            periodSeconds: 10 #de quanto em quanto tempo realizar a requisição
+            failureThreshold: 5 #se ele não conseguir realizar a requisição 3 vezes, na quarta ele vai ignorar o readinessProb
+            initialDelaySeconds: 3 #tempo de espera antes da primeira requisição

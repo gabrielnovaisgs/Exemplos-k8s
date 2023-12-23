@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-1
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    #- ReadWriteMany #multiplos pods podem ler e escrever ao mesmo tempo
+    #- ReadOnlyMany #multiplos pods tem a permissão de ler de uma vez
+    - ReadWriteOnce #um pod por vez tenha a permissão de ler e escrever
+  gcePersistentDisk:
+    pdName: my-data-disk #nome do disco que foi criado no gcp
+  storageClassName: standard #classe de disco que eu estou utilizando

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sistema-configmap
+data:
+  HOST_IP: svc-db-noticias:3306 #posso usar o nome como um dns
+  USER_DB: root
+  PASS_DB: q1w2e3r4
+  DATABASE_DB: empresa
